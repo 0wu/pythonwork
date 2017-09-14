@@ -48,10 +48,17 @@ for i_episode in range(5000):
         action = RL.choose_action(observation)
 
         observation_, reward, done, info = env.step(action)
-
         RL.store_transition(observation, action, reward)
         observation = observation_
+
+        if (t%1000) == 0:
+            print("t=", t)
+
+        if (t>=10000):
+            done = True
+
         t += 1
+
         episode_reward += reward
 
         if done:
