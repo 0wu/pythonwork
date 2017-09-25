@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 
 DISPLAY_REWARD_THRESHOLD = 100  # renders environment if long-term episode reward is greater then this
 RENDER = False  # rendering wastes time
+current_max = 100
 
 env = gym.make('LunarLander-v2')
 env.seed(1)     # reproducible, general Policy gradient has high variance
@@ -71,7 +72,12 @@ for i_episode in range(5000):
                 running_reward = ep_rs_sum
             else:
                 running_reward = running_reward * 0.99 + ep_rs_sum * 0.01
-            if running_reward > DISPLAY_REWARD_THRESHOLD: RENDER = True     # rendering
+            if running_reward > DISPLAY_REWARD_THRESHOLD:
+                RENDER = True     # rendering
+                if running_reward > current_max:
+                    RL.save_model()
+                    current_max = running_reward
+
             print("episode:", i_episode, " episode_reward:", episode_reward, "  running_reward:", int(running_reward), " t:", t)
 
             vt = RL.learn()

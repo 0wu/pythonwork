@@ -11,8 +11,11 @@ Tensorflow: 1.0
 gym: 0.8.0
 """
 
+import os
 import numpy as np
 import tensorflow as tf
+
+MODEL_DIR = 'model/'
 
 # reproducible
 np.random.seed(1)
@@ -36,7 +39,7 @@ class PolicyGradient:
         self.ep_obs, self.ep_as, self.ep_rs = [], [], []
 
         self._build_net()
-
+        self.saver = tf.train.Saver()
         self.sess = tf.Session()
 
         if output_graph:
@@ -47,6 +50,9 @@ class PolicyGradient:
             tf.summary.FileWriter("logs/", self.sess.graph)
 
         self.sess.run(tf.global_variables_initializer())
+
+    def save_model():
+        self.saver.save(self.sess, MODEL_DIR+'myModel')
 
     def _build_net(self):
         with tf.name_scope('inputs'):
