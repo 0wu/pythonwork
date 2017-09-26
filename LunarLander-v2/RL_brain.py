@@ -51,8 +51,11 @@ class PolicyGradient:
 
         self.sess.run(tf.global_variables_initializer())
 
-    def save_model():
+    def save_model(self):
         self.saver.save(self.sess, MODEL_DIR+'myModel')
+
+    def restore_model(self):
+        self.saver.restore(self.sess, MODEL_DIR+'myModel')
 
     def _build_net(self):
         with tf.name_scope('inputs'):
